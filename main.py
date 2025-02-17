@@ -29,16 +29,14 @@ def prepare_parser():
         "--ok", "-o",
         type=int,
         default=thresholds["ok"],
-        help=f"How old file (in hours) is considered OK? Anything older will be considered WARN (see --warn) or CRIT. "
-             f"Default: {thresholds["ok"]} hours"
+        help=f"How old file (in hours) is considered OK? Anything older will be considered WARN (see --warn) or CRIT. Default: {thresholds["ok"]} hours"
     )
 
     parser.add_argument(
         "--warn", "-w",
         type=int,
         default=thresholds["warn"],
-        help=f"How old file (in hours) is considered CRIT? Anything older will be considered CRIT. "
-             f"Default: {thresholds["warn"]} hours"
+        help=f"How old file (in hours) is considered CRIT? Anything older will be considered CRIT. Default: {thresholds["warn"]} hours"
     )
 
     return parser

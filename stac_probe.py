@@ -49,6 +49,8 @@ class STACProbe:
 
         last_week = datetime.date.today() - datetime.timedelta(hours=self._warn_threshold)
         if last_entry_date >= last_week:
-            return 1, f"The last entry in collection {self._collection} is from {last_entry_date}."
+            return 1, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
+                       f"OK threshold: {self._ok_threshold} hours.")
 
-        return 2, f"The last entry in collection {self._collection} is from {last_entry_date}."
+        return 2, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
+                   f"WARN threshold: {self._warn_threshold} hours.")

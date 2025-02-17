@@ -2,8 +2,8 @@ import argparse
 from stac_probe import STACProbe
 
 thresholds = {
-    "ok": 24,
-    "warn": 168
+    'ok': 24,
+    'warn': 168
 }
 default_stac_server = "https://stac.cesnet.cz"
 
@@ -28,15 +28,15 @@ def prepare_parser():
     parser.add_argument(
         "--ok", "-o",
         type=int,
-        default=thresholds["ok"],
-        help=f"How old file (in hours) is considered OK? Anything older will be considered WARN (see --warn) or CRIT. Default: {thresholds["ok"]} hours"
+        default=thresholds['ok'],
+        help=f"How old file (in hours) is considered OK? Anything older will be considered WARN (see --warn) or CRIT. Default: {thresholds['ok']} hours"
     )
 
     parser.add_argument(
         "--warn", "-w",
         type=int,
-        default=thresholds["warn"],
-        help=f"How old file (in hours) is considered CRIT? Anything older will be considered CRIT. Default: {thresholds["warn"]} hours"
+        default=thresholds['warn'],
+        help=f"How old file (in hours) is considered CRIT? Anything older will be considered CRIT. Default: {thresholds['warn']} hours"
     )
 
     return parser
@@ -48,12 +48,12 @@ def main():
 
     stac_server = args.server
     collection_name = args.collection
-    ok_threshold = args.ok
-    warn_threshold = args.warn
+    threshold_ok = args.ok
+    threshold_warn = args.warn
 
     probe = STACProbe(
         root_url=stac_server, collection=collection_name,
-        ok_threshold=ok_threshold, warn_threshold=warn_threshold
+        threshold_ok=threshold_ok, threshold_warn=threshold_warn
     )
     result = probe.check_last_entry_date()
 

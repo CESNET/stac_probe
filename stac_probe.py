@@ -7,13 +7,13 @@ from urllib.parse import urljoin
 class STACProbe:
     _root_url: str
     _collection: str
-    _ok_threshold: int
-    _warn_threshold: int
+    _threshold_ok: int
+    _threshold_warn: int
 
     def __init__(
             self,
             root_url: str = None, collection: str = None,
-            ok_threshold: int = 24, warn_threshold: int = 168
+            threshold_ok: int = 24, threshold_warn: int = 168
     ):
         if root_url is not None:
             self._root_url = root_url
@@ -25,8 +25,8 @@ class STACProbe:
         else:
             self._collection = collection
 
-        self._ok_threshold = ok_threshold
-        self._warn_threshold = warn_threshold
+        self._threshold_ok = threshold_ok
+        self._threshold_warn = threshold_warn
 
     def check_last_entry_date(self) -> tuple[int, str]:
         collection_url = urljoin(self._root_url, f"collections/{self._collection}")
@@ -43,14 +43,14 @@ class STACProbe:
 
         max_date = json_dict['summaries']['datetime']['maximum']
         last_entry_date = datetime.datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ").date()
-        yesterday = datetime.date.today() - datetime.timedelta(hours=self._ok_threshold)
+        yesterday = datetime.date.today() - datetime.timedelta(hours=self._threshold_ok)
         if last_entry_date >= yesterday:
             return 0, f"The last entry in collection {self._collection} is from {last_entry_date}."
 
-        last_week = datetime.date.today() - datetime.timedelta(hours=self._warn_threshold)
+        last_week = datetime.date.today() - datetime.timedelta(hours=self._threshold_warn)
         if last_entry_date >= last_week:
             return 1, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
-                       f"OK threshold: {self._ok_threshold} hours.")
+                       f"OK threshold: {self._threshold_ok} hours.")
 
         return 2, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
-                   f"WARN threshold: {self._warn_threshold} hours.")
+                   f"WARN threshold: {self._threshold_warn} hours.")

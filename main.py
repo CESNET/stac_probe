@@ -8,7 +8,7 @@ thresholds = {
 default_stac_server = "https://stac.cesnet.cz"
 
 
-def prepare_parser():
+def init_parser():
     parser = argparse.ArgumentParser(description="Check status for a given STAC collection.")
 
     parser.add_argument(
@@ -43,7 +43,7 @@ def prepare_parser():
 
 
 def main():
-    parser = prepare_parser()
+    parser = init_parser()
     args = parser.parse_args()
 
     stac_server = args.server

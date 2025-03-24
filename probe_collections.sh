@@ -8,8 +8,8 @@
 #    echo $?
 #done
 
-python main.py -c landsat_ot_c2_l1 -o 48
-python main.py -c landsat_ot_c2_l2 -o 24
+python main.py -c landsat_ot_c2_l1 -o 84
+python main.py -c landsat_ot_c2_l2 -o 84
 python main.py -c reanalysis-era5-single-levels -o 24
 python main.py -c reanalysis-era5-pressure-levels -o 24
 python main.py -c reanalysis-era5-land -o 24

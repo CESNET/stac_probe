@@ -36,7 +36,7 @@ def init_parser():
         "--warn", "-w",
         type=int,
         default=thresholds['warn'],
-        help=f"How old file (in hours) is considered CRIT? Anything older will be considered CRIT. Default: {thresholds['warn']} hours"
+        help=f"How old file (in hours) is considered WARN? Anything older will be considered CRIT. Default: {thresholds['warn']} hours"
     )
 
     return parser

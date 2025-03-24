@@ -25,6 +25,9 @@ class STACProbe:
         else:
             self._collection = collection
 
+        if threshold_ok > threshold_warn:
+            threshold_warn = threshold_ok + 1
+
         self._threshold_ok = threshold_ok
         self._threshold_warn = threshold_warn
 
@@ -43,12 +46,12 @@ class STACProbe:
 
         max_date = json_dict['summaries']['datetime']['maximum']
         last_entry_date = datetime.datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ").date()
-        yesterday = datetime.date.today() - datetime.timedelta(hours=self._threshold_ok)
-        if last_entry_date >= yesterday:
+        last_ok_day = datetime.date.today() - datetime.timedelta(hours=self._threshold_ok)
+        if last_entry_date >= last_ok_day:
             return 0, f"The last entry in collection {self._collection} is from {last_entry_date}."
 
-        last_week = datetime.date.today() - datetime.timedelta(hours=self._threshold_warn)
-        if last_entry_date >= last_week:
+        last_warn_day = datetime.date.today() - datetime.timedelta(hours=self._threshold_warn)
+        if last_entry_date >= last_warn_day:
             return 1, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
                        f"OK threshold: {self._threshold_ok} hours.")
 

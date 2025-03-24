@@ -35,7 +35,7 @@ python main.py -c landsat_ot_c2_l1 -o 84
 
 ## Output
 
-Scripts prints an informational message to `stdout`. For example (and for OK):
+Scripts prints an informational message to `stdout`. For example for OK status:
 
 ```text
 The last entry in collection landsat_ot_c2_l1 is from 2025-03-24.

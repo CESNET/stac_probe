@@ -48,7 +48,7 @@ class STACProbe:
 
         last_entry_datetime = (
             datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ")
-            .replace(microsecond=0, tzinfo=timezone.utc)
+            .replace(tzinfo=timezone.utc)
         )
 
         last_ok_datetime = datetime.now(timezone.utc) - timedelta(hours=self._threshold_ok)

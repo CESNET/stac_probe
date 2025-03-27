@@ -44,10 +44,10 @@ class STACProbe:
 
         json_dict = response.json()
 
-        max_date = json_dict['summaries']['datetime']['maximum']
+        max_datetime = json_dict['summaries']['datetime']['maximum']
 
         last_entry_datetime = (
-            datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+            datetime.strptime(max_datetime, "%Y-%m-%dT%H:%M:%S.%fZ")
             .replace(tzinfo=timezone.utc)
         )
 

@@ -47,4 +47,5 @@ Return values for script are as follows:
 0: OK
 1: WARN
 2: CRIT
+3: OTHER_ERROR (eg. collection not found; HTTP status code != 200)
 ```

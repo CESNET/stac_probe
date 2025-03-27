@@ -46,7 +46,11 @@ class STACProbe:
 
         max_date = json_dict['summaries']['datetime']['maximum']
 
-        last_entry_date = datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+        last_entry_date = (
+            datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+            .replace(microsecond=0, tzinfo=timezone.utc)
+        )
+
         last_ok_day = (
                 datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
                 - timedelta(hours=self._threshold_ok)

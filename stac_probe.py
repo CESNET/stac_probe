@@ -48,16 +48,16 @@ class STACProbe:
 
         last_entry_date = datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
         last_ok_day = (
-            datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-            - timedelta(hours=self._threshold_ok)
+                datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+                - timedelta(hours=self._threshold_ok)
         )
 
         if last_entry_date >= last_ok_day:
             return 0, f"The last entry in collection {self._collection} is from {last_entry_date}."
 
         last_warn_day = (
-            datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-            - timedelta(hours=self._threshold_warn)
+                datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+                - timedelta(hours=self._threshold_warn)
         )
 
         if last_entry_date >= last_warn_day:

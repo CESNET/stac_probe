@@ -1,5 +1,5 @@
-import datetime
-import requests
+from _datetime import datetime, timedelta, timezone
+import httpx
 
 from urllib.parse import urljoin
 
@@ -34,7 +34,7 @@ class STACProbe:
     def check_last_entry_date(self) -> tuple[int, str]:
         collection_url = urljoin(self._root_url, f"collections/{self._collection}")
 
-        response = requests.get(collection_url)
+        response = httpx.get(collection_url)
 
         if response.status_code != 200:
             if response.status_code == 404:
@@ -45,12 +45,21 @@ class STACProbe:
         json_dict = response.json()
 
         max_date = json_dict['summaries']['datetime']['maximum']
-        last_entry_date = datetime.datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ").date()
-        last_ok_day = datetime.date.today() - datetime.timedelta(hours=self._threshold_ok)
+
+        last_entry_date = datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+        last_ok_day = (
+            datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+            - timedelta(hours=self._threshold_ok)
+        )
+
         if last_entry_date >= last_ok_day:
             return 0, f"The last entry in collection {self._collection} is from {last_entry_date}."
 
-        last_warn_day = datetime.date.today() - datetime.timedelta(hours=self._threshold_warn)
+        last_warn_day = (
+            datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+            - timedelta(hours=self._threshold_warn)
+        )
+
         if last_entry_date >= last_warn_day:
             return 1, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
                        f"OK threshold: {self._threshold_ok} hours.")

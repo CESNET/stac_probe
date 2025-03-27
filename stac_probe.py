@@ -46,27 +46,21 @@ class STACProbe:
 
         max_date = json_dict['summaries']['datetime']['maximum']
 
-        last_entry_date = (
+        last_entry_datetime = (
             datetime.strptime(max_date, "%Y-%m-%dT%H:%M:%S.%fZ")
             .replace(microsecond=0, tzinfo=timezone.utc)
         )
 
-        last_ok_day = (
-                datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-                - timedelta(hours=self._threshold_ok)
-        )
+        last_ok_datetime = datetime.now(timezone.utc) - timedelta(hours=self._threshold_ok)
 
-        if last_entry_date >= last_ok_day:
-            return 0, f"The last entry in collection {self._collection} is from {last_entry_date}."
+        if last_entry_datetime >= last_ok_datetime:
+            return 0, f"The last entry in collection {self._collection} is from {last_entry_datetime}."
 
-        last_warn_day = (
-                datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-                - timedelta(hours=self._threshold_warn)
-        )
+        last_warn_datetime = datetime.now(timezone.utc) - timedelta(hours=self._threshold_warn)
 
-        if last_entry_date >= last_warn_day:
-            return 1, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
+        if last_entry_datetime >= last_warn_datetime:
+            return 1, (f"The last entry in collection {self._collection} is from {last_entry_datetime}. "
                        f"OK threshold: {self._threshold_ok} hours.")
 
-        return 2, (f"The last entry in collection {self._collection} is from {last_entry_date}. "
+        return 2, (f"The last entry in collection {self._collection} is from {last_entry_datetime}. "
                    f"WARN threshold: {self._threshold_warn} hours.")
